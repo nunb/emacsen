@@ -1,7 +1,7 @@
 
 ;; Where is this nunb-loader file?
-;; (setq loader-dir (file-name-directory
-;;                     (or (buffer-file-name) load-file-name)))
+(setq loader-dir (file-name-directory
+                    (or (buffer-file-name) load-file-name)))
 
 ;; Demonstrate failed experiments with current directory
 ;; 
@@ -28,7 +28,7 @@
 	(nconc load-path orig-load-path))))
 
 
-(nunb-set-loadpath-all-under "/tmp/")
+;; example (nunb-set-loadpath-all-under "/tmp/")
 
 load-path
 ;; Load user and system specific customizations
