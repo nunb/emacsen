@@ -15,7 +15,7 @@
       (let* ((my-lisp-dir (or loaddir loader-dir "~/emacsen/"))
 	     (default-directory my-lisp-dir)
 	     (orig-load-path load-path))
-	(setq load-path (cons my-lisp-dir nil))
+	;; (setq load-path (cons my-lisp-dir nil))
 	(normal-top-level-add-subdirs-to-load-path)
 	(nconc load-path orig-load-path))))
 
