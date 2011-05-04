@@ -5,9 +5,6 @@
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
-;; Add all files in this buffer's directory to the load-path
-(normal-top-level-add-subdirs-to-load-path)
-
 ;;; Require common stuff
 (require 'cl)
 (require 'uniquify)
