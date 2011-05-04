@@ -1,15 +1,18 @@
 
-;; Where is this nunb-loader file?
+;; FAILED EXPERIMENTS
 ;; (setq loader-dir (file-name-directory
 ;;                     (or (buffer-file-name) load-file-name)))
 
 ;; Demonstrate failed experiments with current directory
+;; 
+;; (defun current-dir ()
+;;   (file-name-directory
+;;    (or (buffer-file-name) load-file-name)))
 
-(defun current-dir ()
-  (file-name-directory
-   (or (buffer-file-name) load-file-name)))
+;; (setq loader-dir (current-dir))
 
-(setq loader-dir (current-dir))
+;; Where is this nunb-loader file?
+(setq loader-dir default-directory)
 
 ;; Add all subdirs in a given dir to the load-path, defaulting to this file's dir, or emacsen (horror! Huge subtree below ~/emacsen!)
 (defun nunb-set-loadpath-all-under (loaddir)
