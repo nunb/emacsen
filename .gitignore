@@ -1,3 +1,4 @@
+vendors/.idea*
 aqua*
 emacs-starter-*
 emacs-conf*
@@ -6,3 +7,4 @@ programm*
 macpo*
 first*
 old*
+esk-emacs-d
