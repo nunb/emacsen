@@ -1,25 +1,48 @@
 Goal: 
        To run Aquamacs + Emacs (emacsforosx.com) as well as Clojure + Common Lisp (ccl+sbcl)
-
-Do not use elpa because it's a pain to setup a new machine, plus versions change. Or, don't keep elpa in ~/ directory.
-
-I prefer to download elisp and make a conf file for each plugin/vendor separately.
-
-With macports/ESK-derived .emacs.d Aquamacs (latest, 2.2+) runs fine, but C-Q quit is broken because of an ido-file-history error.
-
-Plus, I would like to have quicklisp-slime-helper setup with Aquamacs + latest slime and use the standard ESK slime for clojure.
+       Make it easy to try out standard kits like aquamacs-standard-kit, emacs-standard-kit
 
 
+Ideas / Philosophy / Issues:
+      
+      Do not use elpa because it's a pain to setup a new machine, plus versions change. Or, don't keep elpa in ~/ directory.
 
-Option A.
- 	 	Shell script run-aqua that hides .emacs.d -> cannot work, I need both running simultaneously.
+      I prefer to download elisp and make a conf file for each plugin/vendor separately.
 
-Option C.
+      With macports/ESK-derived .emacs.d Aquamacs (latest, 2.2+) runs fine, but C-Q quit is broken because of an ido-file-history error.
+
+      Plus, I would like to have quicklisp-slime-helper setup with Aquamacs + latest slime and use the standard ESK slime for clojure.
+
+
+Background ranting (to be cleaned up)
+
  		Aquamacs runs thru Preferences.el that sets up either an aquamacs-starter-kit and/or a nandan-emacs-config
 		Macports does the same, but through a custom load-path, setup through a -l loadfile that loads emacs-starter-kit and/or a nandan-emacs-config
 		nandan-emacs-config is a directory with vendors/ configs/ and load-foo.el where load-foo.el is the loads required for a particular emacs,
 		eg load-clojure-aquamacs.el load-commonlisp-emacs.el etc. -- they load a common, minimal initfile (for require 'cl etc) and then
-		a set of vendor+config files.
+		a set of vendor+config files.		
 
-		This way it's easy to also try out aquamacs-standard-kits etc.
+
+
+Option A.
+		Master Emacs config directory ~/emacsen
+		Subdirectories: ~/emacsen/vendors and ~/emacsen/vendors-configs
+		~/emacsen/Username.el and Hostname.el for host/user specific customizations
+		~/emacsen/init.el for using as a symlinked .emacs.d (cd; ln -s ~/emacs/ .emacs.d)
+				  or using a startup flag (/usr/bin/emacs -q -l ~/emacsen/init.el)
+				  as preferred
+
+		Customization routes:
 		
+		1) Copy init.el to init-aquamacs.el and init-macports.el to customize them separately using -l startup option
+		     (/bin/aquamacs -l ~/emacsen/init-aquamacs.el)	and	     (/bin/emacs -l ~/emacsen/init-emacs.el)
+	
+		2) Or use hostname, username specific config files (Hostname.el and Username.el in ~/emacs/)
+		
+		3) Or use a (when (boundp 'aquamacs-version)
+		       	       (load "aquamacs-config"))
+			       for version-specific customization, where aquamacs-config can live in 
+			       ~/emacsen/vendors, 
+			       ~/emacsen/vendors-configs
+			       or ~/emacsen/Username/
+			       or ~/emacsen/EmacsForks (path not enabled by default, uncomment in init.el)
