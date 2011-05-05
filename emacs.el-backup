@@ -1,0 +1,4 @@
+(setq desktop-restore-eager 7)
+(desktop-save-mode 1)
+(one-buffer-one-frame-mode 0)
+
