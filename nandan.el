@@ -66,22 +66,26 @@
 
 (defun extract-last-kill (new-filename)
   "Extract last kill into new file, replacing with gensym"
-  (with-current-buffer  (find-file-noselect new-filename)
-    (let* ((fnid (gensym)))
-      (goto-char (point-max))
-      (newline)
-      (insert (format "(defn %s [ & args]" fnid))
-      (newline)
-      (yank) 
-      ;; bloody hell, we need a way to convert
-      ;; a yank to string and insert it to use text<-(yank-as-str)
-      ;; in a let* -- but rather than figure that out, which is taking time
-      ;; I am going to use this dirtier method.
-      (insert ")")
-      (newline)
-      (with-temp-message "Extracting to file..."
-	(save-buffer))
-      (message "Writing file...done"))))
+  (let* ((fnid (gensym)))
+    (insert (format "(NEWNS/%s)" fnid))
+    (with-current-buffer  (find-file-noselect new-filename)
+      (let* ((fnidunused (gensym)))
+	(goto-char (point-max))
+	(newline)
+	(insert (format "(defn %s [ & args]" fnid))
+	(newline)
+	(insert "(comment")
+	(newline)
+	(yank) 
+	;; bloody hell, we need a way to convert
+	;; a yank to string and insert it to use text<-(yank-as-str)
+	;; in a let* -- but rather than figure that out, which is taking time
+	;; I am going to use this dirtier method.
+	(insert "))")
+	(newline)
+	(with-temp-message "Extracting to file..."
+	  (save-buffer))
+	(message "Writing file...done")))))
 
 ;;  (lambda nil (while t (re-search-forward "mini"))) 2)
 
