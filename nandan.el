@@ -70,7 +70,10 @@
     (let* ((fnid (gensym)))
       (goto-char (point-max))
       (insert (format "(defn %s []" fnid))
-      (yank)
+      (yank) ;; bloody hell, we need a way to convert
+      ;; a yank to string and insert it to use text<-(yank-as-str)
+      ;; in a let* -- but rather than figure that out, which is taking time
+      ;; I am going to use this dirtier method.
       (insert ")")
       (newline)
       (with-temp-message "Extracting to file..."
