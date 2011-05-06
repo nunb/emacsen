@@ -59,9 +59,9 @@
              (setq retval (progn ,fn))
            ('error
             (message (format "Caught exception: [%s]" ex))
-            (se
+            (setq retval (cons 'exception (list ex)))))
          retval)
-     ,@clean-up)))))
+     ,@clean-up))
 
 (defun extract-last-kill (new-filename)
   "Extract last kill into new file, replacing with gensym"
