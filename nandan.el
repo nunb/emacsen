@@ -85,6 +85,16 @@
 	  (save-buffer))
 	(message "Writing file...done")))))
 
+
+(defun whiler (filename regx)
+  (while t
+    (progn
+      (re-search-forward regx)
+	  (paredit-backward-up)
+	  (paredit-kill)
+	  (extract-last-kill filename))))
+
+
 ;;  (lambda nil (while t (re-search-forward "mini"))) 2)
 
 (defun whiler (filename regx)
