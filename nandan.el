@@ -51,8 +51,6 @@
 (global-set-key (kbd "<f2>w") 'extractfn)
 
  
-
-
 ;; From  http://curiousprogrammer.wordpress.com/2009/06/08/error-handling-in-emacs-lisp/
 (defmacro safe-wrap (fn &rest clean-up)
   `(unwind-protect
@@ -69,12 +67,11 @@
 (defun extract-last-kill (new-filename)
   "Extract last kill into new file, replacing with gensym"
   (with-current-buffer  (find-file-noselect new-filename)
-    (let* ((fnid (gensym))
-	   (text (yank)))
+    (let* ((fnid (gensym)))
       (goto-char (point-max))
-      (insert (format "(defn %s []
-                           %s )" fnid  
-			   text))
+      (insert (format "(defn %s []" fnid))
+      (yank)
+      (insert ")")
       (newline)
       (with-temp-message "Extracting to file..."
 	(save-buffer))
