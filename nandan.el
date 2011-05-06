@@ -69,8 +69,11 @@
   (with-current-buffer  (find-file-noselect new-filename)
     (let* ((fnid (gensym)))
       (goto-char (point-max))
-      (insert (format "(defn %s []" fnid))
-      (yank) ;; bloody hell, we need a way to convert
+      (newline)
+      (insert (format "(defn %s [ & args]" fnid))
+      (newline)
+      (yank) 
+      ;; bloody hell, we need a way to convert
       ;; a yank to string and insert it to use text<-(yank-as-str)
       ;; in a let* -- but rather than figure that out, which is taking time
       ;; I am going to use this dirtier method.
