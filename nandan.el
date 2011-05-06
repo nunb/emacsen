@@ -70,6 +70,18 @@
     (whiler)
   (message "Done!"))
 
+	 
+;; From  http://curiousprogrammer.wordpress.com/2009/06/08/error-handling-in-emacs-lisp/
+(defmacro safe-wrap (fn &rest clean-up)
+  `(unwind-protect
+       (let (retval)
+         (condition-case ex
+             (setq retval (progn ,fn))
+           ('error
+            (message (format "Caught exception: [%s]" ex))
+            (setq retval (cons 'exception (list ex)))))
+         retval)
+     ,@clean-up))
 
 (defun extract-last-kill (new-filename)
   "Extract last kill into new file, replacing with gensym"
@@ -99,15 +111,3 @@
 	 (fil (read-from-minibuffer "filename? ")))
     (safe-wrap (whiler fil reg)
 	       (message "Refactoring finished, yays!"))))
-	 
-
-(defmacro safe-wrap (fn &rest clean-up)
-  `(unwind-protect
-       (let (retval)
-         (condition-case ex
-             (setq retval (progn ,fn))
-           ('error
-            (message (format "Caught exception: [%s]" ex))
-            (setq retval (cons 'exception (list ex)))))
-         retval)
-     ,@clean-up))
