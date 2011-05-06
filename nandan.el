@@ -34,7 +34,7 @@
  (defn G74205 [])
 
 ;; (defn G74202 [])
-(defun extractfn (new-filename)
+(defun refactor-fn (new-filename)
   (interactive "FFilename:")
   (let* ((fnid (gensym))
 	 (text (delete-and-extract-region (region-beginning) (region-end))))
@@ -52,3 +52,62 @@
 
  
  
+(global-set-key (kbd "<f2>w") 'extractfn)
+
+(unwind-protect
+    (let (retval)
+      (condition-case ex
+          (setq retval (whiler))
+        ('error (message (format "Caught exception: [%s]" ex))))
+        retval)
+  (message "Cleaning up...")
+ 
+(defun whiler ()
+  (while t
+    (re-search-forward "mini")))
+
+(unwind-protect
+    (whiler)
+  (message "Done!"))
+
+
+(defun extract-last-kill (new-filename)
+  "Extract last kill into new file, replacing with gensym"
+  (let* ((fnid (gensym))
+	 (text (yank))
+    (with-current-buffer  (find-file-noselect new-filename)
+      (goto-char (point-max))
+      (insert (format "(defn %s []
+                           %s )" fnid  
+			  text))
+      (newline)
+      (with-temp-message "Extracting to file..."
+	(save-buffer))
+      (message "Writing file...done"))))
+
+
+(defun whiler (filename regx)
+  (while t
+    (re-search-forward regx)
+    (paredit-backword-up)
+    (paredit-kill)
+    (extract-last-kill filename))))
+
+
+(defn move-all-sexps-to (filename)
+  (let* ((reg (read-from-minibuffer "sexp regex? "))
+	 (fil (read-from-minibuffer "filename? ")))
+    (safe-wrap (whiler fil reg)
+	       (message "Refactoring finished, yays!"))))
+	 
+
+(defmacro safe-wrap (fn &rest clean-up)
+  `(unwind-protect
+       (let (retval)
+         (condition-case ex
+             (setq retval (progn ,fn))
+           ('error
+            (message (format "Caught exception: [%s]" ex))
+            (setq retval (cons 'exception (list ex)))))
+         retval)
+     ,@clean-up))
