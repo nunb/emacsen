@@ -107,7 +107,7 @@
     (extract-last-kill filename))))
 
 
-(defn move-all-sexps-to (filename)
+(defun move-all-sexps-to (filename)
   (let* ((reg (read-from-minibuffer "sexp regex? "))
 	 (fil (read-from-minibuffer "filename? ")))
     (safe-wrap (whiler fil reg)
