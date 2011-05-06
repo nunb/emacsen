@@ -83,6 +83,7 @@
          retval)
      ,@clean-up))
 
+
 (defun extract-last-kill (new-filename)
   "Extract last kill into new file, replacing with gensym"
   (let* ((fnid (gensym))
