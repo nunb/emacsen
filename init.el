@@ -1,4 +1,4 @@
-;; Turn off mouse interface early in startup to avoid momentary display via ESK
+(;; Turn off mouse interface early in startup to avoid momentary display via ESK
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -31,8 +31,10 @@
 ;; (setq load-path (cons vendor-dir load-path))
 ;; need all subdirectories in vendors:
 (nunb-set-loadpath-all-under vendor-dir)
-;;(lp)
 (setq load-path (cons config-dir load-path))
+
+(require 'loaddefs)
+
 ;;(message "Latest ...") 
 ;; (lp)
 
@@ -49,7 +51,7 @@
 ;;        config-dir))
 
 
-;; RANDOOM TESTINK
+;; ( TESTINK
 ;; (nunb-set-loadpath-all-under "/tmp/newp/")
 ;; (message "%s" (nreverse load-path))
 ;; (lp)
