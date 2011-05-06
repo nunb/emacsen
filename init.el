@@ -13,6 +13,7 @@
 (defun lp ()
   (message "At %s \t %s" (current-time-string) load-path))
 
+(lp)
 ;; This file's directory
 (setq init-dir (file-name-directory
 		(or (buffer-file-name) load-file-name)))
@@ -34,6 +35,7 @@
 (setq load-path (cons config-dir load-path))
 
 (require 'loaddefs)
+(require 'magit)
 
 ;;(message "Latest ...") 
 ;; (lp)

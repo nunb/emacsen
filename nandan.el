@@ -1,5 +1,4 @@
 
-
 ;; (when (boundp 'aquamacs-version)
 ;;   (one-buffer-one-frame-mode))
 
@@ -16,7 +15,6 @@
 (lp)
 (global-set-key [C-o] 'other-window)
 
-(defn G74204 [])
 (switch-to-buffer "*Messages*")
 
 
@@ -31,9 +29,7 @@
     (insert ")")))
 
 (global-set-key (kbd "<f2>w") 'save-as)
- (defn G74205 [])
 
-;; (defn G74202 [])
 (defun refactor-fn (new-filename)
   (interactive "FFilename:")
   (let* ((fnid (gensym))
