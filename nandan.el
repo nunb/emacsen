@@ -51,24 +51,6 @@
 (global-set-key (kbd "<f2>w") 'extractfn)
 
  
- 
-(global-set-key (kbd "<f2>w") 'extractfn)
-
-(unwind-protect
-    (let (retval)
-      (condition-case ex
-          (setq retval (whiler))
-        ('error (message (format "Caught exception: [%s]" ex))))
-        retval)
-  (message "Cleaning up...")
- 
-(defun whiler ()
-  (while t
-    (re-search-forward "mini")))
-
-(unwind-protect
-    (whiler)
-  (message "Done!"))
 
 	 
 ;; From  http://curiousprogrammer.wordpress.com/2009/06/08/error-handling-in-emacs-lisp/
@@ -79,9 +61,9 @@
              (setq retval (progn ,fn))
            ('error
             (message (format "Caught exception: [%s]" ex))
-            (setq retval (cons 'exception (list ex)))))
+            (se
          retval)
-     ,@clean-up))
+     ,@clean-up)))))
 
 
 (defun extract-last-kill (new-filename)
@@ -96,19 +78,150 @@
       (newline)
       (with-temp-message "Extracting to file..."
 	(save-buffer))
-      (message "Writing file...done"))))
+      (message "Writing file...done")))))
 
+;;  (lambda nil (while t (re-search-forward "mini"))) 2)
 
 (defun whiler (filename regx)
   (while t
-    (re-search-forward regx)
-    (paredit-backword-up)
-    (paredit-kill)
-    (extract-last-kill filename))))
+    (progn
+          (re-search-forward regx)
+	  (paredit-backword-up)
+	  (paredit-kill)
+	  (extract-last-kill filename))))
 
 
-(defun move-all-sexps-to (filename)
+(defun move-all-sexps-to ()
   (let* ((reg (read-from-minibuffer "sexp regex? "))
 	 (fil (read-from-minibuffer "filename? ")))
     (safe-wrap (whiler fil reg)
 	       (message "Refactoring finished, yays!"))))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;; From  http://curiousprogrammer.wordpress.com/2009/06/08/error-handling-in-emacs-lisp/
+(defmacro safe-wrap (fn &rest clean-up)
+  `(unwind-protect
+       (let (retval)
+         (condition-case ex
+             (setq retval (progn ,fn))
+           ('error
+            
+            (se
+         retval)
+     ,@clean-up)))))
+
+
+(defun extract-last-kill (new-filename)
+  "Extract last kill into new file, replacing with gensym"
+  (with-current-buffer  (find-file-noselect new-filename)
+    (let* ((fnid (gensym))
+	   (text (yank)))
+      (goto-char (point-max))
+      (insert (format "(defn %s []
+                           %s )" fnid  
+			   text))
+      (newline)
+      
+      )))
+
+;;  (lambda nil (while t (re-search-forward "mini"))) 2)
+
+(defun whiler (filename regx)
+  (while t
+    (progn
+          (re-search-forward regx)
+	  (paredit-backward-up)
+	  (paredit-kill)
+	  (extract-last-kill filename))))
+
+
+(defun move-all-sexps-to ()
+  (let* ((reg (read-from-minibuffer "sexp regex? "))
+	 (fil (read-from-minibuffer "filename? ")))
+    (safe-wrap (whiler fil reg)
+	       )))
+;; From  http://curiousprogrammer.wordpress.com/2009/06/08/error-handling-in-emacs-lisp/
+(defmacro safe-wrap (fn &rest clean-up)
+  `(unwind-protect
+       (let (retval)
+         (condition-case ex
+             (setq retval (progn ,fn))
+           ('error
+            
+            (se
+         retval)
+     ,@clean-up)))))
+
+
+(defun extract-last-kill (new-filename)
+  "Extract last kill into new file, replacing with gensym"
+  (let* ((fnid (gensym))
+	 (text (yank))
+    (with-current-buffer  (find-file-noselect new-filename)
+      (goto-char (point-max))
+      (insert (format "(defn %s []
+                           %s )" fnid  
+			  text))
+      (newline)
+      
+      ))))
+
+;;  (lambda nil (while t (re-search-forward "mini"))) 2)
+
+(defun whiler (filename regx)
+  (while t
+    (progn
+          (re-search-forward regx)
+	  (paredit-backward-up)
+	  (paredit-kill)
+	  (extract-last-kill filename))))
+
+
+(defun move-all-sexps-to ()
+  (let* ((reg (read-from-minibuffer "sexp regex? "))
+	 (fil (read-from-minibuffer "filename? ")))
+    (safe-wrap (whiler fil reg)
+	       )))
+
