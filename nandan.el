@@ -106,8 +106,14 @@
 	  (extract-last-kill filename))))
 
 
+
 (defun move-all-sexps-to ()
   (let* ((reg (read-from-minibuffer "sexp regex? "))
 	 (fil (read-from-minibuffer "filename? ")))
+    ;; (point-min)
+    (insert (format "(:require [zulu.handlers.%s :as NEWNS])" fil))
+
+    (with-current-buffer  (find-file-noselect fil)
+      (insert (format "(ns zulu.handlers.%s)" fil)))
     (safe-wrap (whiler fil reg)
-	       (message "Refactoring finished, yays!"))))
+	      (message "All done!"))))
