@@ -1,3 +1,4 @@
+
 ;; Turn off mouse interface early in startup to avoid momentary display via ESK
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -9,7 +10,7 @@
 (require 'ansi-color)
 (require 'saveplace)
 
-(global-set-key (kbd "<f1>e") 'eval-region)
+;; I use this very often
 (global-set-key (kbd "<f1>e") 'eval-region)
 
 ;; Print out loadpath with timestamp
@@ -37,13 +38,10 @@
 (nunb-set-loadpath-all-under vendor-dir)
 (setq load-path (cons config-dir load-path))
 
-(require 'loaddefs)
-(require 'magit)
-
 ;;(message "Latest ...") 
 ;; (lp)
 
-(switch-to-buffer "*Messages*")
+;; (switch-to-buffer "*Messages*")
 
 (nunb-load-system-and-user) ;; load any system and user files
 
